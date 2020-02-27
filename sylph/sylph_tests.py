@@ -25,7 +25,7 @@ class TestArithmetic(unittest.TestCase):
 
     def test_subtraction(self):
         interp = Interpreter()
-        simple = ["+", 23, 42]
+        simple = ["-", 23, 42]
         self.assertEqual(interp.eval(simple), -19)
 
         complex = ["-", ["-", 42, 23], ["-", 3, 2]]
