@@ -1,6 +1,5 @@
 import unittest
-
-from . import Interpreter, DictEnvironment
+from sylph import Interpreter, DictEnvironment
 
 
 class TestBasics(unittest.TestCase):
