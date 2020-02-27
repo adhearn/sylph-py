@@ -1,2 +1,2 @@
-from .interpreter import Interpreter
-from .sylph_tests import TestBasics, TestArithmetic
+from .interpreter import Interpreter, DictEnvironment
+from .sylph_tests import TestBasics, TestArithmetic, TestEnv, TestLambda

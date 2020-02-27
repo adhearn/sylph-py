@@ -1,6 +1,6 @@
 import unittest
 
-from . import Interpreter
+from . import Interpreter, DictEnvironment
 
 
 class TestBasics(unittest.TestCase):
@@ -9,10 +9,6 @@ class TestBasics(unittest.TestCase):
         self.assertEqual(interp.eval(7), 7)
         self.assertEqual(interp.eval(-42), -42)
 
-    def test_primitives_strings(self):
-        interp = Interpreter()
-        self.assertEqual(interp.eval("Test String"), "Test String")
-        self.assertEqual(interp.eval('Single quote test string'), 'Single quote test string')
 
 class TestArithmetic(unittest.TestCase):
     def test_addition(self):
@@ -40,6 +36,33 @@ class TestArithmetic(unittest.TestCase):
         interp = Interpreter()
         expr = ["*", ["+", 4, 5], ["-", 8, 5]]
         self.assertEqual(interp.eval(expr), 27)
+
+
+class TestEnv(unittest.TestCase):
+    def test_simple(self):
+        env = DictEnvironment()
+        env = env.extend("a", 23)
+        self.assertEqual(env.lookup("a"), 23)
+
+
+class TestLambda(unittest.TestCase):
+    def test_simple(self):
+        interp = Interpreter()
+        expr = [["lambda", ["x"], "x"], 42]
+        val = interp.eval(expr)
+        self.assertEqual(val, 42)
+
+    def test_add1(self):
+        interp = Interpreter()
+        expr = [["lambda", ["x"], ["+", "x", 1]], 42]
+        val = interp.eval(expr)
+        self.assertEqual(val, 43)
+
+    def test_curried(self):
+        interp = Interpreter()
+        expr = [[["lambda", ["x"], ["lambda", ["y"], ["+", "x", "y"]]], 23], 42]
+        val = interp.eval(expr)
+        self.assertEqual(val, 65)
 
 
 if __name__ == '__main__':
